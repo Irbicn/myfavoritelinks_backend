@@ -1,5 +1,5 @@
 export default {
-  noData: 'Porfavor, rellena todos los datos',
+  noData: 'Please, fill all inputs',
   invalidPassword: 'Invalid Passwword',
-  invalidUser: 'Invalid User',
+  invalidUser: 'This user does not exist',
 };

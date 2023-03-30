@@ -22,9 +22,8 @@ CREATE TABLE links(
   description TEXT,
   user_id INT(11),
   create_at timestamp NOT NULL DEFAULT current_timestamp,
-  CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id)
+  PRIMARY KEY (id),
+  KEY user_id_idx (user_id)
 );
-ALTER TABLE links
-  ADD PRIMARY KEY (id);
 ALTER TABLE links
   MODIFY id INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT = 1;

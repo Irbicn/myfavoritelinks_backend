@@ -3,11 +3,12 @@ import morgan from 'morgan';
 import cors from 'cors';
 import authRouter from './routes/auth.routes';
 import linksRouter from './routes/links.routes';
+import config from './config';
 
 const app = express();
 
 //Settings
-app.set('port', 4000);
+app.set('port', config.port);
 
 //Middleware
 app.use(express.json());

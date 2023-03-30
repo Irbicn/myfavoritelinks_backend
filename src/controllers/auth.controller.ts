@@ -9,6 +9,9 @@ import errors from '../lib/errors';
 export default class Auth {
   static async signup(req: Request, res: Response) {
     const { name, password, email } = req.body;
+    if (!name || !password || !email) {
+      return res.send({ message: errors.noData });
+    }
     try {
       const db = await getConnection();
       const user = await db.query('SELECT * FROM users WHERE email = ?', [
@@ -24,17 +27,15 @@ export default class Auth {
         password: await encrypt(password),
         email,
       };
-      console.log(newUser);
       const result = await db.query('INSERT INTO users SET ?', [newUser]);
 
-      console.log({ ...newUser, id: result.insertId });
       const token = jwt.sign(
         { username: name, email, user_id: result.insertId },
         config.secretKey
       );
-      res.json(token);
+      res.json({ token });
     } catch (err: any) {
-      res.status(500).json({ message: err.message });
+      res.status(500).json({ err: err.message });
     }
   }
   static async signin(req: Request, res: Response) {
@@ -57,10 +58,10 @@ export default class Auth {
           user_id: user[0].id,
         };
         const token = jwt.sign(cleanUser, config.secretKey);
-        res.json(token);
+        res.json({ token });
       });
     } catch (err: any) {
-      res.status(500).json({ message: err.message });
+      res.status(500).json({ err: err.message });
     }
   }
 }
